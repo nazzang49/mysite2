@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+	<!-- UserVO에 있는 필드 연결 -->
+	<insert id="insert" parameterType="uservo">
+	<![CDATA[
+	insert into user values(null, #{name}, #{email}, #{pw}, #{gender}, now())
+	]]>
+		<!-- 회원 추가 후 할당된 번호 no로 저장 -->
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			<![CDATA[select last_insert_id()]]>
+		</selectKey>
+	</insert>
+	
+	<select id="getByEmailAndPw" resultType="uservo" parameterType="map">	
+	<![CDATA[
+	select * from user where email=#{email} and pw=#{pw}
+	]]>
+	</select>
+	
+	<select id="getByNo" resultType="uservo" parameterType="long">	
+	<![CDATA[
+	select name, email, pw from user where no=#{no}
+	]]>
+	</select>
+	
+	<update id="update" parameterType="uservo">	
+	<![CDATA[
+	update user set name=#{name},
+	]]>
+	<!-- 비밀번호가 존재하면 -->
+	<if test="pw != ''">
+	<![CDATA[
+	pw=#{pw},
+	]]>
+	</if>
+	<![CDATA[
+	email=#{email} where no=#{no}
+	]]>
+	</update>
+
+</mapper>
