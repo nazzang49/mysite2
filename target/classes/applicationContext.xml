@@ -12,9 +12,12 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
+	<!-- auto proxy -->
+	<aop:aspectj-autoproxy/>
+
 	<context:annotation-config />
 	<!-- Java, DB와 관련된 객체들을 bean 설정 해주는 xml 파일 -->
-	<context:component-scan base-package="com.cafe24.mysite.repository, com.cafe24.mysite.service">
+	<context:component-scan base-package="com.cafe24.mysite.repository, com.cafe24.mysite.service, com.cafe24.mysite.aspect, com.cafe24.fileupload.service">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Component" />			
@@ -24,14 +27,13 @@
 	<!-- Connection Pool DataSource-->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="org.mariadb.jdbc.Driver" />
-		<property name="url" value="jdbc:mariadb://192.168.1.43:3307/webdb" />
+		<property name="url" value="jdbc:mariadb://192.168.1.33:3307/webdb" />
 		<property name="username" value="webdb" />
 		<property name="password" value="webdb" />
 	</bean>
 	
 	<!-- property = set/get 메소드 -->
 	<!-- constructor = 생성자 -->
-	
 	
 	<!-- MyBatis SqlSessionFactoryBean --> 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> 
@@ -41,7 +43,7 @@
 	
 	
 	<!-- MyBatis SqlSessionTemplate --> 
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 	

@@ -17,7 +17,7 @@
 			<div id="wrapper">
 				<div id="content">
 					<div id="site-introduction">
-						<h2>안녕, 내 홈페이지에 온 걸 환영해</h2>
+						<h2>- CAFE24 교육생 박진영입니다 -</h2>
 						<p>
 							[웹 프로그램밍 실습과제 예제 사이트]<br>
 							메뉴는  사이트 소개/방명록/게시판 및 Python/데이터베이스/웹프로그래밍 수업<br><br>

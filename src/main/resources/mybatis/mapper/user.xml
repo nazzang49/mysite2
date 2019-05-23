@@ -26,6 +26,13 @@
 	]]>
 	</select>
 	
+	<!-- 내장형은 다 소문자로 기입 -->
+	<select id="getByEmail" resultType="uservo" parameterType="string">	
+	<![CDATA[
+	select * from user where email=#{email}
+	]]>
+	</select>
+	
 	<update id="update" parameterType="uservo">	
 	<![CDATA[
 	update user set name=#{name},

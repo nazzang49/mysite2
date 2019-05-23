@@ -2,14 +2,23 @@ package com.cafe24.mysite.vo;
 
 import java.sql.Date;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserVO {
 
 	private Long no;
+	@NotEmpty
+	@Length(min=2, max=8)
 	private String name;
+	@Email
+	@NotEmpty
 	private String email;
 	private String pw;
 	private String gender;
 	private Date regdate;
+	
 	public Long getNo() {
 		return no;
 	}

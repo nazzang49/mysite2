@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+
+	<!-- 댓글 목록 -->
+	<select id="getList" resultType="commentvo">
+	<![CDATA[
+	select c.no, c.contents, c.reg_date as regDate, u.name as userName
+	from comment c, user u
+	where c.board_no=#{boardNo}
+	and c.user_no=u.no
+	]]>
+	</select>
+	
+	<insert id="insert" parameterType="commentvo">
+	<![CDATA[
+	insert into comment values(null,#{contents},now(),#{boardNo},#{userNo})
+	]]>
+	</insert>
+	
+</mapper>

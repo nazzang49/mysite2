@@ -19,7 +19,7 @@
 				<p class="jr-success">
 					회원가입 축하 :)
 					<br><br>
-					<a href="${pageContext.servletContext.contextPath }/user?a=loginform">로그인</a>
+					<a href="${pageContext.servletContext.contextPath }/user/login">로그인</a>
 				</p>				
 			</div>
 		</div>

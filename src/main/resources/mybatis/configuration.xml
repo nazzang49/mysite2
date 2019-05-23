@@ -4,10 +4,14 @@
 	<typeAliases>
 		<typeAlias alias="uservo" type="com.cafe24.mysite.vo.UserVO"/>
 		<typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestBookVO"/>
+		<typeAlias alias="boardvo" type="com.cafe24.mysite.vo.BoardVO"/>
+		<typeAlias alias="commentvo" type="com.cafe24.mysite.vo.CommentVO"/>
     </typeAliases>
 	<mappers>
 		<!-- SQL문의 파라미터 및 결과의 타입을 매핑할 MyBatis mapper 설정 -->
 		<mapper resource="mybatis/mapper/user.xml" />
 		<mapper resource="mybatis/mapper/guestbook.xml" />
+		<mapper resource="mybatis/mapper/board.xml" />
+		<mapper resource="mybatis/mapper/comment.xml" />
 	</mappers>
 </configuration>

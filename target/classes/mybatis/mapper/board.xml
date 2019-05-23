@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+	<!-- 게시물 목록 -->
+	<select id="getList" resultType="boardvo">
+	<![CDATA[
+	select b.no, b.title, b.reg_date as regDate, b.hit, b.order_no as orderNo, b.group_no as groupNo, b.depth, u.name as userName, u.no as userNo
+	from board b, user u
+	where b.user_no=u.no
+	order by groupNo desc, orderNo asc
+	limit #{startRow},#{pageSize}
+	]]>
+	</select>
+	
+	<!-- orderNo +1 -->
+	<update id="updateOrderNo" parameterType="map">
+	<![CDATA[
+	update board set order_no=order_no+1 where group_no=#{groupNo} and order_no>=#{orderNo}
+	]]>
+	</update>
+	
+	<!-- 게시물 삭제(조회) -->
+	<select id="getRelatedList" parameterType="long" resultType="boardvo">
+	<![CDATA[
+	select no, order_no as orderNo, depth from board
+	where group_no=#{groupNo}
+	and order_no>=#{orderNo}
+	and depth>=#{depth}
+	order by orderNo asc, depth asc
+	]]>
+	</select>
+	
+	<!-- max 그룹 번호 -->
+	<select id="getLastGroupNo" resultType="long">
+	<![CDATA[
+	select max(group_no) from board
+	]]>
+	</select>
+	
+	<select id="getCount" resultType="long">
+	<![CDATA[
+	select count(*) from board
+	]]>
+	</select>
+	
+	<!-- view -->
+	<select id="getOne" parameterType="long" resultType="boardvo">
+	<![CDATA[
+	select b.no, b.title, b.contents, b.group_no as groupNo, b.order_no as orderNo, b.depth, b.reg_date as regDate, b.hit, u.name as userName
+	from board b, user u
+	where b.no=#{no}
+	and b.user_no=u.no
+	]]>
+	</select>
+	
+	<insert id="insert" parameterType="map">
+	<![CDATA[
+	insert into board values(null,#{title},#{contents},0,now(),#{groupNo},1,0,#{url},#{userNo})
+	]]>
+	</insert>
+	
+	<insert id="rewrite" parameterType="boardvo">
+	<![CDATA[
+	insert into board values(null,#{title},#{contents},0,now(),#{groupNo},#{orderNo},#{depth},#{userNo})
+	]]>
+	</insert>
+	
+	<update id="updateHit" parameterType="long">
+	<![CDATA[
+	update board set hit=hit+1 where no=#{no}
+	]]>
+	</update>
+	
+	<update id="update" parameterType="boardvo">
+	<![CDATA[
+	update board set title=#{title},contents=#{contents} where no=#{no}
+	]]>
+	</update>
+	
+	<delete id="delete" parameterType="long">
+	<![CDATA[
+	delete from board where no=#{no}
+	]]>
+	</delete>
+	
+</mapper>

@@ -16,6 +16,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.omg.CORBA.UserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StopWatch;
 
 import com.cafe24.mysite.exception.UserDAOException;
 import com.cafe24.mysite.vo.GuestBookVO;
@@ -30,36 +31,8 @@ public class UserDAO {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	static Connection conn = null;
-	static PreparedStatement pstmt = null;
-	static ResultSet rs = null;
-	static String sql = "";
-	
 	public UserDAO() {
 		System.out.println("UserDAO 생성자");
-	}
-	
-	//일괄 종료
-	public static void close() {
-		try {
-			if(rs!=null&&!rs.isClosed()) {
-				rs.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}try {
-			if(pstmt!=null&&!pstmt.isClosed()) {
-				pstmt.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}try {
-			if(conn!=null&&!conn.isClosed()) {
-				conn.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	//회원추가(세션 팩토리)
@@ -74,6 +47,11 @@ public class UserDAO {
 	
 	public UserVO get(Long no) {
 		UserVO vo = sqlSession.selectOne("user.getByNo",no);
+		return vo;
+	}
+	
+	public UserVO get(String email) {
+		UserVO vo = sqlSession.selectOne("user.getByEmail",email);
 		return vo;
 	}
 	

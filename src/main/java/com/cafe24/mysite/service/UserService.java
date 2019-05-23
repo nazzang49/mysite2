@@ -12,6 +12,13 @@ public class UserService {
 	@Autowired
 	private UserDAO userDao;
 	
+	public boolean existEmail(String email) {
+		UserVO vo = userDao.get(email);
+		//true면 사용자 있음
+		//false면 사용자 없음(이메일 사용 가능)
+		return vo!=null;
+	}
+	
 	public boolean join(UserVO vo) {
 		return userDao.insert(vo);
 	}

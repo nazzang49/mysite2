@@ -1,10 +1,12 @@
 package com.cafe24.mysite.controller;
 
+import java.util.List;
 import javax.servlet.http.HttpSession;
-
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,14 +23,23 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping(value="/join") 
-	public String join() {
+	public String join(@ModelAttribute UserVO vo) {
 		//view 폴더까지는 이미 path 설정이 되어 있음
 		return "user/join";
 	}
 	
-	//컨트롤러 + 서비스 구분 완료
+	//컨트롤러 + 서비스 구분 완료 + 유효성 검사 Valid
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	public String join(@ModelAttribute UserVO vo) {
+	public String join(@ModelAttribute @Valid UserVO vo,
+					   BindingResult result,
+					   Model model) {
+		
+		//유효성 검사를 통과하지 못한 경우
+		if(result.hasErrors()) {
+			model.addAllAttributes(result.getModel());
+			return "user/join";
+		}
+		
 		//DB 저장 작업(별도 객체 생성 필요 없음 / bean 객체 자동 주입)
 		userService.join(vo);
 		return "redirect:/user/joinsuccess";
