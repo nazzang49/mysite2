@@ -221,7 +221,7 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
 					<!-- jenkins가 다른 컴퓨터에 있으면 ip 수정 및 포트번호 주의 -->
-					<url>http://127.0.0.1:8080/manager/text</url>
+					<url>http://127.0.0.1:8090/manager/text</url>
 					<path>/mysite2</path>
 					<username>admin</username>
 					<password>manager</password>
