@@ -165,6 +165,13 @@
 							<exclude>**/*.java</exclude>
 						</excludes>
 					</resource>
+					<resource>
+						<directory>${project.basedir}/src/main/production/resources</directory>
+						<excludes>
+							<!-- 자바 소스 파일 제외 -->
+							<exclude>**/*.java</exclude>
+						</excludes>
+					</resource>
 				</resources>
 				<plugins>
 					<plugin>
