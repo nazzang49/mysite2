@@ -194,7 +194,7 @@
 				<dependency>
 					<groupId>javax.servlet.jsp</groupId>
 					<artifactId>jsp-api</artifactId>
-					<version>2.0</version>
+					<version>2.5</version>
 					<scope>provided</scope>
 				</dependency>
 			</dependencies>
@@ -219,7 +219,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>3.2.1</version>
 				<configuration>
-					<warSourceDirectory>src/main/resources</warSourceDirectory>
+					<warSourceDirectory>src</warSourceDirectory>
 				</configuration>
 			</plugin>
 				
