@@ -63,7 +63,7 @@
 	
 	<insert id="rewrite" parameterType="boardvo">
 	<![CDATA[
-	insert into board values(null,#{title},#{contents},0,now(),#{groupNo},#{orderNo},#{depth},#{userNo})
+	insert into board values(null,#{title},#{contents},0,now(),#{groupNo},#{orderNo},#{depth},"rewrite",#{userNo})
 	]]>
 	</insert>
 	

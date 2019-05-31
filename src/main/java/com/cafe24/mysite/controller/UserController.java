@@ -51,41 +51,10 @@ public class UserController {
 		return "user/joinsuccess";
 	}
 	
-	@RequestMapping(value="/login") 
+	@RequestMapping(value="/login")
 	public String login() {
 		//view 폴더까지는 이미 path 설정이 되어 있음
 		return "user/login";
-	}
-	
-	//컨트롤러 + 서비스 구분 완료
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(@RequestParam(value="email", required=true, defaultValue="") String email,
-						@RequestParam(value="pw", required=true, defaultValue="") String pw,
-						HttpSession session,
-						Model model) {
-		//DB 저장 작업(별도 객체 생성 필요 없음 / bean 객체 자동 주입)
-		UserVO vo = new UserVO();
-		vo.setEmail(email);
-		vo.setPw(pw);
-		vo = userService.getUser(vo);
-		
-		if(vo==null) {
-			model.addAttribute("result", "fail");
-			//forward(form 문서)
-			return "user/login";
-		}
-		//회원가입 성공 시 세션 처리
-		session.setAttribute("vo", vo);
-		//redirect(입력값 처리 후)
-		return "redirect:/";
-	}
-	
-	@RequestMapping(value="/logout")
-	public String logout(HttpSession session) {
-		//현재 로그인 중인 세션 삭제 및 공간 제거
-		session.removeAttribute("vo");
-		session.invalidate();
-		return "redirect:/";
 	}
 	
 	//회원 수정 이동(완료)

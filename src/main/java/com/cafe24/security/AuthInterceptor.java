@@ -18,7 +18,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 						     Object handler)
 						     throws Exception {
 		
-		//1) 핸들러 종류 확인
+		//1) 핸들러 종류 확인(디폴트 or 지정된)
 		if(handler instanceof HandlerMethod == false) {
 			return true;
 		}
@@ -31,10 +31,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		//4) @Auth 없을 시 Class(Type)에 @Auth 받기
 //		if(auth==null) {
-//			auth = 
+//			auth =
 //		}
 		
-		//5) Class에도 없는 경우
+		//5) Class에도 없는 경우(따로 접근 제한이 명시되지 않은 경우 = all accepted)
 		if(auth==null) {
 			return true;
 		}
@@ -42,21 +42,25 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		//6) @Auth가 탐색된 경우(클래스 or 메소드) = 인증 여부 확인
 		HttpSession session = request.getSession();
 		
-		//세션 자체가 없거나 찾고자 하는 세션이 없는 경우
+		//세션 자체가 없거나 찾고자 하는 세션이 없는 경우(이동 및 인증 실패)
 		if(session==null) {
+			//이동
 			response.sendRedirect(request.getContextPath()+"/user/login");
+			//인증 실패
 			return false;
 		}
-		UserVO vo = (UserVO)session.getAttribute("vo");
+		
+		//전 페이지에서 통용되는 로그인 세션
+		UserVO vo = (UserVO)session.getAttribute("authUser");
 		if(vo==null) {
 			response.sendRedirect(request.getContextPath()+"/user/login");
 			return false;
 		}
 		
-		//7) role 가져오기
+		//7) role 가져오기(USER or ADMIN)
 		Auth.Role role = auth.role();
 		
-		//8) role이 USER라면, 인증된 모든 사용자 접근 허용
+		//8) role이 USER = all accepted
 		if(role==Auth.Role.USER) {
 			return true;
 		}

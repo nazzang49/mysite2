@@ -28,8 +28,8 @@ public class MeasureExecutionTimeAspect {
 		String methodName = pjp.getSignature().getName();
 		String taskName = className+"."+methodName;
 		
-		System.out.println("[Execution Time] / ["+taskName+"]");
-		System.out.println("totalTime --> "+totalTime);
+		//System.out.println("[Execution Time] / ["+taskName+"]");
+		//System.out.println("totalTime --> "+totalTime);
 		
 		return result;
 	}

@@ -73,7 +73,7 @@ input#kwd	{
 }
 
 .board-form .tbl-ex textarea#contents {
-	width: 470px;
+	width: 450px;
 	height: 200px;
 	padding: 10px;
 	resize: none;

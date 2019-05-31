@@ -24,6 +24,8 @@ import com.cafe24.mysite.vo.BoardVO;
 import com.cafe24.mysite.vo.CommentVO;
 import com.cafe24.mysite.vo.UserVO;
 import com.cafe24.security.Auth;
+import com.cafe24.security.AuthUser;
+import com.cafe24.web.util.WebUtil;
 
 @Controller
 @RequestMapping("/board")
@@ -62,14 +64,14 @@ public class BoardController {
 			count = boardService.getCount(type, keyword);
 			
 			model.addAttribute("type", type);
-			model.addAttribute("keyword", keyword);
+			model.addAttribute("keyword", WebUtil.encodeURL(keyword, "utf-8"));
 			
 		}else {
-
 			list = boardService.getList(startRow-1, pageSize);
 			count = boardService.getCount();
 			
 		}
+		
 		model.addAttribute("count", count);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pageBlock", 3L);
@@ -99,19 +101,23 @@ public class BoardController {
 	//게시물 작성
 	@Auth
 	@RequestMapping("/write")
-	public String write() {
+	public String write(@AuthUser UserVO vo) {
 		return "board/write";
 	}
 	
+	@Auth
 	//게시물 작성(신규)
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String write(@RequestParam (value="title", required=true, defaultValue="") String title,
 						@RequestParam (value="contents", required=true, defaultValue="") String contents,
 						@RequestParam (value="file") MultipartFile file,
-						HttpSession session) {
+						@AuthUser UserVO authUser,
+						@ModelAttribute BoardVO vo) {
 		
-		UserVO user = (UserVO)session.getAttribute("vo");
 		Long lastGroupNo = 0L;
+		
+		System.out.println(vo.getContents());
+		System.out.println(vo.getTitle());
 		
 		String url = boardService.restore(file);
 		
@@ -121,7 +127,7 @@ public class BoardController {
 			lastGroupNo = boardService.getLastGroupNo();
 		}
 		lastGroupNo++;
-		boolean result = boardService.insert(title,contents,lastGroupNo,user.getNo(),url);
+		boolean result = boardService.insert(title,contents,lastGroupNo,authUser.getNo(),url);
 		
 		//성공
 		if(result) {

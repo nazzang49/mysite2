@@ -42,6 +42,10 @@
 		<c:import url='/WEB-INF/views/includes/header.jsp'/>
 		<div id="content">
 			<div id="board">
+			
+			--${pageNum}
+			--${type}
+			--${keyword}
 				<!-- 검색 -->
 				<form id="search_form" action="${pageContext.servletContext.contextPath }/board" method="post">
 					<select id="search">
@@ -80,7 +84,7 @@
 						<!-- 현재 로그인 중인 사용자 = 게시물 작성자 -->
 						<!-- 계층형 게시물 삭제 -->
 						<td>
-						<c:if test="${vo.no==bvo.userNo }">
+						<c:if test="${authUser.no==bvo.userNo }">
 						<a href="${pageContext.servletContext.contextPath }/board/delete?no=${bvo.no}&groupNo=${bvo.groupNo}
 						&orderNo=${bvo.orderNo}&depth=${bvo.depth}" class="del">삭제</a>
 						</c:if>
@@ -136,7 +140,7 @@
 				</c:if>
 				<div class="bottom">
 					<!-- 로그인 정보가 있을 경우에만 글쓰기 가능 -->
-					<c:if test='${vo!=null }'>
+					<c:if test='${authUser!=null }'>
 					<a href="${pageContext.servletContext.contextPath }/board/write" id="new-book">글쓰기</a>
 					</c:if>
 				</div>				

@@ -105,11 +105,11 @@
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
 					<!-- 수정은 본인이면 가능 -->
-					<c:if test='${vo.name==bvo.userName }'>
+					<c:if test='${authUser.name==bvo.userName }'>
 					<a href="${pageContext.servletContext.contextPath }/board/modify?no=${bvo.no}">글수정</a>
 					</c:if>
 					<!-- 답글은 회원이면 가능 -->
-					<c:if test='${vo!=null }'>
+					<c:if test='${authUser!=null }'>
 					<a href="${pageContext.servletContext.contextPath }/board/rewrite?groupNo=${bvo.groupNo }&orderNo=${bvo.orderNo }&depth=${bvo.depth }&pageNum=${pageNum}">답글</a>
 					</c:if>
 				</div>
@@ -117,7 +117,7 @@
 				<!-- 댓글 -->
 				<div id="comment">
 				<!-- 회원에 한해 댓글 작성 가능 -->
-				<c:if test='${vo!=null }'>
+				<c:if test='${authUser!=null }'>
 				
 				<!-- validation 적용 -->
 				<table class="tbl-ex">
@@ -125,9 +125,9 @@
 							<th colspan="3">댓글 입력</th>
 						</tr>
 						<tr><!-- 현재 로그인 중인 사용자 = 작성자 -->
-							<td class="label" style="width:20%;">${vo.name }</td>
+							<td class="label" style="width:20%;">${authUser.name }</td>
 							<td class="label" style="width:80%;">
-							<textarea name="contents" id="contents" style="width:100%; height:100px;">[입력 대기]</textarea>
+							<textarea name="contents" id="contents" style="width:400px; height:100px;">[입력 대기]</textarea>
 							<button id="comment-submit">입력</button>
 							</td>
 						</tr>
@@ -153,11 +153,11 @@
 						<td>
 						<input type="hidden" value="${cvo.no }" id="no">
 							<!-- 본인 것만 변경 가능 -->
-							<c:if test="${vo.name==cvo.userName }">
+							<c:if test="${authUser.name==cvo.userName }">
 							<button id="delete">삭제</button>
 							<button id="update">수정</button>
 							</c:if>
-							<c:if test="${vo.name!=cvo.userName || vo==null}">
+							<c:if test="${authUser.name!=cvo.userName || authUser==null}">
 							<p style="text-align: center;">변경불가</p>
 							</c:if>
 						</td>

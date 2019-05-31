@@ -33,14 +33,14 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter{
 		user.setEmail(email);
 		user.setPw(pw);
 		
-		UserVO vo = userService.getUser(user);
-		if(vo==null) {
+		UserVO authUser = userService.getUser(user);
+		if(authUser==null) {
 			response.sendRedirect(request.getContextPath()+"/user/login");
 			return false;
 		}
 		
 		HttpSession session = request.getSession(true);
-		session.setAttribute("vo", vo);
+		session.setAttribute("authUser", authUser);
 		response.sendRedirect(request.getContextPath());
 		
 		return false;

@@ -12,7 +12,7 @@ public class AuthLogoutInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 		
 		HttpSession session = request.getSession(true);
-		session.removeAttribute("vo");
+		session.removeAttribute("authUser");
 		session.invalidate();
 		
 		response.sendRedirect(request.getContextPath());
