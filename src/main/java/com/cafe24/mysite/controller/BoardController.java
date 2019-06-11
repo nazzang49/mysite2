@@ -113,15 +113,9 @@ public class BoardController {
 						@ModelAttribute BoardVO vo) {
 		
 		Long lastGroupNo = 0L;
-		
-		System.out.println(vo.getContents());
-		System.out.println(vo.getTitle());
-		System.out.println("오쓰 : "+authUser.getNo());
-		
 		String url = boardService.restore(file);
 		
 		//db저장
-		
 		if(boardService.getLastGroupNo()!=null) {
 			lastGroupNo = boardService.getLastGroupNo();
 		}
