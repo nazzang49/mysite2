@@ -65,13 +65,11 @@ public class BoardController {
 			
 			model.addAttribute("type", type);
 			model.addAttribute("keyword", WebUtil.encodeURL(keyword, "utf-8"));
-			
 		}else {
 			list = boardService.getList(startRow-1, pageSize);
 			count = boardService.getCount();
-			
 		}
-		
+				
 		model.addAttribute("count", count);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("pageBlock", 3L);
@@ -118,6 +116,7 @@ public class BoardController {
 		
 		System.out.println(vo.getContents());
 		System.out.println(vo.getTitle());
+		System.out.println("오쓰 : "+authUser.getNo());
 		
 		String url = boardService.restore(file);
 		
@@ -157,7 +156,7 @@ public class BoardController {
 						@RequestParam (value="depth", required=true, defaultValue="0") Long depth,
 						@RequestParam (value="title", required=true, defaultValue="") String title,
 						@RequestParam (value="contents", required=true, defaultValue="") String contents,
-						HttpSession session,
+						@AuthUser UserVO authUser,
 						Model model) {
 		
 		//기존 orderNo update 작업
@@ -165,14 +164,13 @@ public class BoardController {
 		boardService.updateOrderNo(groupNo,orderNo);
 		depth++;
 		
-		UserVO user = (UserVO)session.getAttribute("vo");
 		BoardVO vo = new BoardVO();
 		vo.setTitle(title);
 		vo.setContents(contents);
 		vo.setGroupNo(groupNo);
 		vo.setOrderNo(orderNo);
 		vo.setDepth(depth);
-		vo.setUserNo(user.getNo());
+		vo.setUserNo(authUser.getNo());
 		
 		boolean result = boardService.rewrite(vo);
 		

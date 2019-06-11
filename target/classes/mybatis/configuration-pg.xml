@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="uservo" type="com.cafe24.mysite.vo.UserVO"/>
+		<typeAlias alias="guestbookvo" type="com.cafe24.mysite.vo.GuestBookVO"/>
+		<typeAlias alias="boardvo" type="com.cafe24.mysite.vo.BoardVO"/>
+		<typeAlias alias="commentvo" type="com.cafe24.mysite.vo.CommentVO"/>
+    </typeAliases>
+	<mappers>
+		<!-- SQL문의 파라미터 및 결과의 타입을 매핑할 MyBatis mapper 설정 -->
+		<mapper resource="mybatis/mapper-pg/user.xml" />
+		<mapper resource="mybatis/mapper-pg/guestbook.xml" />
+		<mapper resource="mybatis/mapper-pg/board.xml" />
+		<mapper resource="mybatis/mapper-pg/comment.xml" />
+	</mappers>
+</configuration>

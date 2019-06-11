@@ -13,14 +13,6 @@
 
 	<!-- web과 관련된 controller, exception 설정을 해주는 xml 파일 -->
 
-	<!-- 1) validator, conversionService, messageConverter를 자동으로 등록 -->
-	<mvc:annotation-driven>
-		<!-- argument resolver -->
-	    <mvc:argument-resolvers>
-		<bean class="com.cafe24.security.AuthUserHandlerArgumentResolver"/>           
-	    </mvc:argument-resolvers>
-	</mvc:annotation-driven>
-	
 	<!-- the mvc resources url mapping -->
 	<mvc:resources mapping="/images/**" location="file:/mysite-uploads/" />
 	
@@ -112,5 +104,11 @@
 			</bean>
 			
 		</mvc:message-converters>
+		
+		<!-- argument resolver -->
+	    <mvc:argument-resolvers>
+			<bean class="com.cafe24.security.AuthUserHandlerArgumentResolver"/>           
+	    </mvc:argument-resolvers>
+	    
 	</mvc:annotation-driven>
 </beans>

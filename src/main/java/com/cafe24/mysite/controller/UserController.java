@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.UserVO;
+import com.cafe24.security.AuthUser;
 
 @RequestMapping("/user")
 @Controller
@@ -59,14 +60,14 @@ public class UserController {
 	
 	//회원 수정 이동(완료)
 	@RequestMapping(value= "/update")
-	public String update(HttpSession session, Model model) {
+	public String update(@AuthUser UserVO authUser,
+					     Model model) {
 		//로그인 세션 정보가 존재하는 경우에만 수정 가능
-		if(session!=null&&session.getAttribute("vo")!=null) {
-			UserVO vo = (UserVO)session.getAttribute("vo");
-			UserVO user = userService.getUser(vo.getNo());
+		if(authUser!=null) {
+			UserVO user = userService.getUser(authUser.getNo());
 			
 			model.addAttribute("vo",user);
-			model.addAttribute("no",vo.getNo());
+			model.addAttribute("no",authUser.getNo());
 			return "user/update";
 		}
 		//로그인 세션 정보가 없으면 로그인 페이지로 이동
@@ -91,7 +92,7 @@ public class UserController {
 		boolean flag = userService.update(vo);
 		
 		//기존 세션 삭제
-		session.removeAttribute("vo");
+		session.removeAttribute("authUser");
 		
 		vo = new UserVO();
 		//세션에는 사용자의 번호, 이름만 저장됨
@@ -99,7 +100,7 @@ public class UserController {
 		vo.setName(name);
 
 		//변경된 사용자 정보로 새 세션 등록
-		session.setAttribute("vo", vo);
+		session.setAttribute("authUser", vo);
 		
 		//수정 실패
 		if(!flag) {

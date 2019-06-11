@@ -14,6 +14,7 @@ import com.cafe24.mysite.service.CommentService;
 import com.cafe24.mysite.service.UserService;
 import com.cafe24.mysite.vo.CommentVO;
 import com.cafe24.mysite.vo.UserVO;
+import com.cafe24.security.AuthUser;
 
 @RequestMapping("/comment/api")
 //다른 패키지에 있는 commnetcontroller와 헷갈리지 않도록
@@ -27,13 +28,11 @@ public class CommentController {
 	@RequestMapping("/insert")
 	public JSONResult insert(@RequestParam (value="contents", required=true, defaultValue="") String contents,
 								 @RequestParam (value="boardNo", required=true, defaultValue="0") Long boardNo,
-								 HttpSession session) {
+								 @AuthUser UserVO authUser) {
 	
-		UserVO vo = (UserVO)session.getAttribute("vo");
-		
 		CommentVO cvo = new CommentVO();
 		cvo.setBoardNo(boardNo);
-		cvo.setUserNo(vo.getNo());
+		cvo.setUserNo(authUser.getNo());
 		cvo.setContents(contents);
 		
 		boolean flag = commentService.insert(cvo);
